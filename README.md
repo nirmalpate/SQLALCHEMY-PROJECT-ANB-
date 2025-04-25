@@ -67,7 +67,7 @@ from(
 
  MYSQL :
 
- SELECT  release_year, director, count(*) as cn
+SELECT  release_year, director, count(*) as cn
 FROM pop.data
 where director is not null
 group by release_year, director;
@@ -84,10 +84,10 @@ from pop.data
 where director is not null
 group by director,release_year;
 
-with cte as(
-select director, release_year, count(show_id) over(partition by  release_year) as rnk
-from pop.data
-where director is not null
+ with cte as(
+ select director, release_year, count(show_id) over(partition by  release_year) as rnk
+ from pop.data
+ where director is not null
  ), mm as(
  select  *, row_number() over(partition by release_year order by rnk desc) as nn
  from cte),cte5 as(
@@ -99,12 +99,12 @@ where director is not null
  from cte5)
  select *
  from loopa
- where sd = n
+ where sd = n;
 
 
  MYSQL:
 
- with comedies as(SELECT * 
+with comedies as(SELECT * 
 FROM pop.data
 where listed_in like "Comedies" and director is not null)
 select  country, count(show_id) as total_movies
